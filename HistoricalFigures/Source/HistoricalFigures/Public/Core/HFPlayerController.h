@@ -90,10 +90,15 @@ public:
 		} 
 		return Values;
 	}
-
+	
+	
+	UFUNCTION(BlueprintCallable)
+	void SetupSystemContext(const FString& context, const FString& accomplishments, const FString& request);
 
 	
 protected:
+
+	
 	
 	virtual void BeginPlay() override;
 	UPROPERTY(BlueprintReadOnly, Category="TCC | Speech Recognition")

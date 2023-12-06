@@ -78,9 +78,14 @@ void AHFPlayerController::ConfirmSpeechRecognition(const bool& Accepted)
 		FString JSonString;
 		FJsonObjectConverter::UStructToJsonObjectString(FRequestModel::StaticStruct(),&RequestModel,JSonString);
 
-		
-		UHFGPT3Request::PostMessageToChatGPT3(OpenAIAPIKey, JSonString)->OnResponse.AddDynamic(this, &AHFPlayerController::HandleReceivedResponseFromGPT3);
-		
+		auto requestInstance = GetWorld()->GetGameInstance()->GetSubsystem<UHFGPT3Request>();
+		if (!requestInstance->OnResponse.IsBound()) 
+		{
+			requestInstance->OnResponse.AddDynamic(this, &AHFPlayerController::HandleReceivedResponseFromGPT3);
+		}
+
+		requestInstance->PostMessageToChatGPT3(OpenAIAPIKey, JSonString);
+
 		ChangeStatus(EUserStatus::GENERATING_ANSWER);
 	}
 	else
@@ -96,19 +101,24 @@ bool AHFPlayerController::CanCaptureMic()
 	return true;
 }
 
+void AHFPlayerController::SetupSystemContext(const FString& context, const FString& accomplishments, const FString& request)
+{
+	auto CharacterDescription = GetGameInstance()->GetSubsystem<UCharacterDataHolderSubsystem>()->SelectedCharacterDescription;
+	FString SysContextAsString;
+
+	SysContextAsString.Append(context);
+	SysContextAsString.Append(accomplishments);
+	SysContextAsString.Append(request);
+
+	SystemContext = SysContextAsString;
+	AddChatEntry("system", SystemContext);
+}
+
 void AHFPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	auto CharacterDescription = GetGameInstance()->GetSubsystem<UCharacterDataHolderSubsystem>()->SelectedCharacterDescription;
-	FString SysContextAsString;
-
-	SysContextAsString.Append(CharacterDescription.CharacterProfile);
-	SysContextAsString.Append(CharacterDescription.CharacterBackground);
-	SysContextAsString.Append(CharacterDescription.Request);
-
-	SystemContext = SysContextAsString;
-	AddChatEntry("system", SystemContext);
+	
 }
 
 void AHFPlayerController::HandleRecognitionFinished()

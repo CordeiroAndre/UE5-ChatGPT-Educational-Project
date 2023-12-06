@@ -5,9 +5,8 @@
 #include "HttpModule.h"
 
 
-UHFGPT3Request* UHFGPT3Request::PostMessageToChatGPT3(const FString& APIKey, const FString& JSonContentAsString)
+void UHFGPT3Request::PostMessageToChatGPT3(const FString& APIKey, const FString& JSonContentAsString)
 {
-	UHFGPT3Request* Request = NewObject<UHFGPT3Request>();
 	
 	TSharedRef<IHttpRequest> httpRequest = FHttpModule::Get().CreateRequest();
 	
@@ -19,9 +18,8 @@ UHFGPT3Request* UHFGPT3Request::PostMessageToChatGPT3(const FString& APIKey, con
 	httpRequest->SetHeader("Authorization", Authorization);
 	httpRequest->SetContentAsString(JSonContentAsString);
 	
-	httpRequest->OnProcessRequestComplete().BindUObject(Request, &UHFGPT3Request::HandleRequestComplete);
+	httpRequest->OnProcessRequestComplete().BindUObject(this, &UHFGPT3Request::HandleRequestComplete);
 	httpRequest->ProcessRequest();
-	return Request;
 }
 
 void UHFGPT3Request::HandleRequestComplete(TSharedPtr<IHttpRequest, ESPMode::ThreadSafe> HttpRequest,TSharedPtr<IHttpResponse, ESPMode::ThreadSafe> HttpResponse, bool bSuccessful)

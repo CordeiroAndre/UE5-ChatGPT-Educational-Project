@@ -3,9 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Kismet/BlueprintAsyncActionBase.h"
 #include "Interfaces/IHttpRequest.h"
 #include "Interfaces/IHttpResponse.h"
+#include "Subsystems/GameInstanceSubsystem.h"
 #include "HFGPT3Request.generated.h"
 
 /**
@@ -15,13 +15,13 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnGotResponse, const FString&, Assi
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnGotResponseFail);
 
 UCLASS()
-class HISTORICALFIGURES_API UHFGPT3Request : public UBlueprintAsyncActionBase
+class HISTORICALFIGURES_API UHFGPT3Request : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 
 public:
-	UFUNCTION(BlueprintCallable, meta=(BlueprintInternalUseOnly = "true", WorldContext="WorldContextObject"), Category="TCC | GPT3 | Requests")
-	static UHFGPT3Request* PostMessageToChatGPT3(const FString& APIKey, const FString& JSonContentAsString);
+	UFUNCTION(BlueprintCallable,  Category="TCC | GPT3 | Requests")
+	void PostMessageToChatGPT3(const FString& APIKey, const FString& JSonContentAsString);
 
 	UPROPERTY(BlueprintAssignable, Category="TCC | GPT3 | Delegates")
 	FOnGotResponse OnResponse;

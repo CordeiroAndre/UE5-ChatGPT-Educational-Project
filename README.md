@@ -1,13 +1,15 @@
 # Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+Welcome to the repository for my thesis project completed for my Bachelor of Software Engineering degree from the University of Santa Catarina.
+This project offers an engaging educational experience where users can interact with the renowned Brazilian writer, Machado de Assis, in a playful environment.
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+https://github.com/CordeiroAndre/UE5-ChatGPT-Educational-Project/assets/60711778/3206c1e0-f8a1-4499-9f09-1f41fe04d76a
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+Utilizing a combination of Unreal Engine 5 and C++, a dynamic 3D environment has been crafted. Additionally, OpenAI's ChatGPT3 has been integrated to simulate conversations between users and the writer.
+
+
+
+
+
+
+
 
